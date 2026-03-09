@@ -9,11 +9,14 @@ from configs.settings import KafkaConfig, SparkConfig, Schemas, ClickHouseConfig
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def get_spark_session(app_name: str, jar_package: str) -> SparkSession:
+def get_spark_session(app_name: str) -> SparkSession:
     """Creates a Spark session with necessary Kafka connectors."""
+    spark_settings = SparkConfig.get_conf()
+    spark_settings.set("spark.jars.packages", SparkConfig.KAFKA_JAR_PACKAGE)
+
     return SparkSession.builder \
-        .appName(app_name) \
-        .config("spark.jars.packages", jar_package) \
+        .appName(app_name)      \
+        .config(conf=spark_settings) \
         .getOrCreate()
 
 
@@ -46,7 +49,7 @@ def transform_cdc_data(df, schema):
             col("price").cast("decimal(10,2)")
         )
 
-    return parsed_df
+    return raw_df
 
 def write_to_clickhouse(batch_df, batch_id):
     """
@@ -72,7 +75,7 @@ def write_to_clickhouse(batch_df, batch_id):
 def run_pipeline():
     """Main execution flow for the ClickHouse streaming job."""
     # Ensure SparkConfig.KAFKA_JAR_PACKAGE includes both Kafka and ClickHouse JARs
-    spark = get_spark_session(SparkConfig.APP_NAME, SparkConfig.KAFKA_JAR_PACKAGE)
+    spark = get_spark_session(SparkConfig.APP_NAME)
     
     try:
         logger.info(f"Subscribing to Kafka Topic: {KafkaConfig.TOPICS}")
@@ -83,6 +86,7 @@ def run_pipeline():
             .option("kafka.bootstrap.servers", KafkaConfig.SERVERS) \
             .option("subscribe", KafkaConfig.TOPICS) \
             .option("startingOffsets", KafkaConfig.STARTING_OFFSETS) \
+            .option("failOnDataLoss", "false") \
             .load()
 
         # 2. TRANSFORM
