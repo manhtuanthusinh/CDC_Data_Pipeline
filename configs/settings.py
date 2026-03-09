@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from pyspark.conf import SparkConf
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType, LongType, DecimalType
 
 # Resolve path to .env in the project root
@@ -20,6 +21,34 @@ class SparkConfig:
     APP_NAME = "CDC_Inventory_Stream"
     CHECKPOINT_DIR = os.getenv("CHECKPOINT_PATH")
     KAFKA_JAR_PACKAGE = os.getenv("KAFKA_JAR_PACKAGE")
+
+    @staticmethod
+    def get_conf():
+        conf = SparkConf()
+        conf.setAppName(SparkConfig.APP_NAME)
+        
+        # --- Resource Allocation ---
+        conf.set("spark.executor.memory", "4g")       # RAM per executor
+        conf.set("spark.executor.cores", "2")        # CPU cores per executor
+        conf.set("spark.driver.memory", "2g")         # RAM for the driver process
+        conf.set("spark.cores.max", "4")              # Total max cores for the app
+        
+        # --- Performance & Streaming Optimization ---
+        # Essential for CDC/Streaming to handle small files and shuffle partitions
+        conf.set("spark.sql.shuffle.partitions", "20") 
+        conf.set("spark.streaming.stopGracefullyOnShutdown", "true")
+        
+        # --- Memory Management ---
+        # Adjusts how much RAM is used for execution vs. storage
+        conf.set("spark.memory.fraction", "0.6")
+        
+        # --- Dynamic Allocation (Optional/Recommended) ---
+        # Allows Spark to scale executors up/down based on workload
+        # conf.set("spark.dynamicAllocation.enabled", "true")
+        # conf.set("spark.dynamicAllocation.minExecutors", "1")
+        # conf.set("spark.dynamicAllocation.maxExecutors", "10")
+
+        return conf
 
 class ClickHouseConfig:
     URL = os.getenv("CLICKHOUSE_URL")
