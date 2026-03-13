@@ -1,9 +1,10 @@
 import logging
+import os
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import from_json, col
 from pyspark.sql.types import LongType, TimestampType
 from configs.settings import KafkaConfig, SparkConfig, Schemas, ClickHouseConfig
-
+from pyspark.sql.functions import col, from_json
 
 # Configure logging to match repo standards
 logging.basicConfig(level=logging.INFO)
@@ -12,64 +13,63 @@ logger = logging.getLogger(__name__)
 def get_spark_session(app_name: str) -> SparkSession:
     """Creates a Spark session with necessary Kafka connectors."""
     spark_settings = SparkConfig.get_conf()
-    spark_settings.set("spark.jars.packages", SparkConfig.KAFKA_JAR_PACKAGE)
+    
+    # This finds the absolute path of the directory containing THIS script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # Adjust the number of '../' based on where this script is 
+    # (e.g., if script is in src/streaming/, one '../' gets you to src/, two gets you to root)
+    jar_path = os.path.join(script_dir, "../../jars/clickhouse-jdbc-all.jar")
+    jar_path = os.path.normpath(jar_path) # Cleans up the ../.. parts
+
+    print(f"DEBUG: Looking for ClickHouse JAR at: {jar_path}")
 
     return SparkSession.builder \
         .appName(app_name)      \
         .config(conf=spark_settings) \
+        .config("spark.jars.packages", SparkConfig.KAFKA_JAR_PACKAGE) \
+        .config("spark.jars", jar_path) \
         .getOrCreate()
 
+from pyspark.sql import functions as F
 
-from pyspark.sql.functions import col, from_json
+from pyspark.sql import functions as F
 
 def transform_cdc_data(df, schema):
-    # 1. Cast the Kafka binary 'value' to String
-    raw_df = df.selectExpr("CAST(value AS STRING) as json_payload")
+    # 1. Parse JSON
+    parsed_df = df.select(
+        F.from_json(F.col("value").cast("string"), schema).alias("data")
+    )
     
-    # 2. FILTER: Ignore Schema Change/DDL messages (they contain a 'ddl' key)
-    # We only want 'Data' messages (which usually have an 'after' key)
-    data_only_df = raw_df.filter("json_payload LIKE '%\"after\"%'")
+    # 2. Flatten and Explicitly Alias
+    final_df = parsed_df.select(
+        F.col("data.id").cast("int").alias("id"),
+        F.col("data.customer_id").cast("int").alias("customer_id"),
+        F.col("data.product_name").alias("product_name"),
+        F.col("data.price").cast("decimal(10,2)").alias("price"),
+        F.col("data.status").alias("status"),
+        # Use to_timestamp for ISO strings or division for ms; alias is mandatory
+        F.to_timestamp(F.col("data.created_at")).alias("created_at")
+    )
     
-    # 3. Parse the JSON
-    # NOTE: Your 'schema' must match the 'after' block structure
-    parsed_df = data_only_df.select(
-        from_json(col("json_payload"), schema).alias("payload")
-    ).select("payload.after.*") # This reaches inside the CDC envelope
-    
-    # 4. Handle transformations on the extracted columns
-    if "created_at" in parsed_df.columns:
-        parsed_df = parsed_df.withColumn(
-            "created_at", 
-            (col("created_at").cast("long") / 1000000).cast("timestamp")
-        )
-        
-    if "price" in parsed_df.columns:
-        parsed_df = parsed_df.withColumn(
-            "price", 
-            col("price").cast("decimal(10,2)")
-        )
+    # 3. Add the ingestion timestamp
+    return final_df.withColumn("inserted_at", F.current_timestamp())
 
-    return raw_df
 
-def write_to_clickhouse(batch_df, batch_id):
-    """
-    Function called for every micro-batch of data.
-    """
-    if batch_df.count() > 0:
-        logger.info(f"Writing micro-batch {batch_id} to ClickHouse...")
-
-        try:
-            batch_df.write \
-                .format("jdbc") \
-                .option("url", ClickHouseConfig.URL) \
-                .option("dbtable", ClickHouseConfig.TABLE) \
-                .option("user", ClickHouseConfig.USER) \
-                .option("password", ClickHouseConfig.PASSWORD) \
-                .option("driver", ClickHouseConfig.DRIVER) \
-                .mode("append") \
-                .save()
-        except Exception as e:
-            logger.error(f"Failed to write batch {batch_id} to ClickHouse: {e}")
+def write_to_clickhouse(df, batch_id):
+    if df.count() > 0:
+        print(f"Writing {df.count()} rows to ClickHouse (Batch {batch_id})...")
+        df.write \
+            .format("jdbc") \
+            .option("url", "jdbc:clickhouse://localhost:8123/default?jdbcCompliant=false")  \
+            .option("driver", "com.clickhouse.jdbc.ClickHouseDriver") \
+            .option("dbtable", "orders_warehouse") \
+            .option("user", "default") \
+            .option("password", "1111") \
+            .mode("append") \
+            .save()
+    else:
+        print(f"Batch {batch_id} is empty. Skipping...")
 
 
 def run_pipeline():
@@ -87,12 +87,12 @@ def run_pipeline():
             .option("subscribe", KafkaConfig.TOPICS) \
             .option("startingOffsets", KafkaConfig.STARTING_OFFSETS) \
             .option("failOnDataLoss", "false") \
+            .option("kafka.allow.auto.create.topics", "true") \
             .load()
 
         # 2. TRANSFORM
         # Ensure transform_cdc_data is imported and handles your 'orders' schema
-        structured_df = transform_cdc_data(raw_stream_df, Schemas.ORDER_SCHEMA)
-
+        structured_df = transform_cdc_data(raw_stream_df, Schemas.ORDER_FLAT_SCHEMA)
         # 3. LOAD (ClickHouse JDBC Sink)
         # We use foreachBatch to handle the JDBC connection per micro-batch
         query = structured_df.writeStream \
@@ -108,6 +108,7 @@ def run_pipeline():
         raise
     finally:
         spark.stop()
+    
 
 
 if __name__ == "__main__":
