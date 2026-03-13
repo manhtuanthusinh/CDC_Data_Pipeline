@@ -2,22 +2,26 @@
   "name": "mysql-inventory-connector",
   "config": {
     "connector.class": "io.debezium.connector.mysql.MySqlConnector",
-
     "database.hostname": "mysql",
     "database.port": "3306",
     "database.user": "root",
     "database.password": "root",
-
     "database.server.id": "184054",
-
     "topic.prefix": "inventory",
-
     "database.include.list": "inventory",
-
     "table.include.list": "inventory.products,inventory.orders",
-
     "schema.history.internal.kafka.bootstrap.servers": "kafka:29092",
     "schema.history.internal.kafka.topic": "schema-changes.inventory",
+  
+    "topic.creation.enable": "true",
+    "topic.creation.default.replication.factor": "1",
+    "topic.creation.default.partitions": "1",
+    "topic.creation.default.cleanup.policy": "delete",
+
+    "transforms": "unwrap",
+    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+    "transforms.unwrap.drop.tombstones": "true",
+    "transforms.unwrap.delete.handling.mode": "drop",
 
     "include.schema.changes": "false",
     "database.allowPublicKeyRetrieval": "true",
