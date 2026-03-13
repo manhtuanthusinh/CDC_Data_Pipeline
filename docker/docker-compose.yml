@@ -28,7 +28,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=inventory
-    command: --server-id=1 --log-bin=mysql-bin --binlog-format=row --default-authentication-plugin=mysql_native_password
+    command: --server-id=1 --log-bin=mysql-bin --binlog-format=row --binlog-row-image=full --default-authentication-plugin=mysql_native_password
 
   debezium:
     image: debezium/connect:2.1
@@ -46,6 +46,10 @@ services:
       - STATUS_STORAGE_TOPIC=my_connect_statuses
       - KEY_CONVERTER=org.apache.kafka.connect.json.JsonConverter
       - VALUE_CONVERTER=org.apache.kafka.connect.json.JsonConverter
+      # Fix: Set these to 1 for your single-node dev setup
+      - CONFIG_STORAGE_REPLICATION_FACTOR=1
+      - OFFSET_STORAGE_REPLICATION_FACTOR=1
+      - STATUS_STORAGE_REPLICATION_FACTOR=1
 
   setup-connector:
       image: curlimages/curl:latest
@@ -55,30 +59,29 @@ services:
       volumes:
         - ../src/cdc/debezium_connector.json:/configs/debezium_connector.json
         - ../scripts/setup_debezium.sh:/setup.sh
+      # Removed network_mode: host. Use service name instead.
       entrypoint: ["/bin/sh", "/setup.sh"]
-      network_mode: "host" # Để curl vào localhost:8083 dễ dàng
 
-  # Clickhouse
   clickhouse:
     image: clickhouse/clickhouse-server:23.8
     container_name: clickhouse_cdc
     ports:
-      - "8123:8123"  # HTTP Interface (for Spark JDBC)
-      - "9000:9000"  # Native Client Interface
-      - "9440:9440"  # Secure Native Interface
+      - "8123:8123" 
+      - "9000:9000"
     environment:
       - CLICKHOUSE_USER=default
       - CLICKHOUSE_PASSWORD=1111
       - CLICKHOUSE_DB=inventory_dwh
     volumes:
-      - ./clickhouse_data:/var/lib/clickhouse  # Persistence
-      - ../scripts/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql # Auto-run your schema
+      - ./clickhouse_data:/var/lib/clickhouse 
+      - ../scripts/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
     ulimits:
       nofile:
         soft: 262144
         hard: 262144
     healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "localhost:8123/ping"]
+      # Use clickhouse-client for the healthcheck instead of wget
+      test: ["CMD", "clickhouse-client", "--query", "SELECT 1"]
       interval: 10s
       timeout: 5s
       retries: 5
