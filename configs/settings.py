@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 from pyspark.conf import SparkConf
-from pyspark.sql.types import StructType, StructField, StringType, IntegerType, LongType, DecimalType
+from pyspark.sql.types import StructType, StructField, StringType, IntegerType, LongType, DoubleType
 
 # Resolve path to .env in the project root
 base_dir = Path(__file__).resolve().parent.parent
@@ -21,6 +21,7 @@ class SparkConfig:
     APP_NAME = "CDC_Inventory_Stream"
     CHECKPOINT_DIR = os.getenv("CHECKPOINT_PATH")
     KAFKA_JAR_PACKAGE = os.getenv("KAFKA_JAR_PACKAGE")
+    CLICKHOUSE_JAR_PACKAGE = os.getenv("CLICKHOUSE_JAR_PACKAGE")
 
     @staticmethod
     def get_conf():
@@ -77,4 +78,11 @@ class Schemas:
         StructField("ts_ms", LongType(), True) # Timestamp of the event
     ])
 
-    ORDER_SCHEMA = ORDER_CDC_ENVELOPE
+    ORDER_FLAT_SCHEMA = StructType([
+        StructField("id", IntegerType(), False),
+        StructField("customer_id", IntegerType(), True),
+        StructField("product_name", StringType(), True),
+        StructField("price", DoubleType(), True),
+        StructField("status", StringType(), True),
+        StructField("created_at", StringType(), True) # It's a string "2026-03-13T..."
+    ])
