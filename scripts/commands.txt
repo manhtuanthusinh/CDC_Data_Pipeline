@@ -27,3 +27,208 @@ localhost:8083/connectors/ -d '{
     "value.converter.schemas.enable": "false"
   }
 }'
+
+
+//  for testing insert multiple rows into mysql
+
+INSERT INTO orders (customer_id, product_name, price, status) VALUES
+(106, 'Industrial Sensor B2', 155.00, 'ACTIVE'),
+(107, 'Vibration Monitor Z', 305.50, 'PENDING'),
+(108, 'Thermal Camera Pro', 910.00, 'ACTIVE'),
+(109, 'Pressure Valve XL', 60.00, 'SHIPPED'),
+(110, 'Gateway Controller Plus', 135.00, 'ACTIVE'),
+(111, 'Humidity Sensor H1', 80.00, 'ACTIVE'),
+(112, 'Edge Data Logger', 220.00, 'PENDING'),
+(113, 'Smart Relay Module', 45.50, 'ACTIVE'),
+(114, 'Industrial Camera I2', 640.00, 'SHIPPED'),
+(115, 'Flow Meter F10', 310.00, 'ACTIVE'),
+(116, 'Temperature Probe T1', 35.00, 'ACTIVE'),
+(117, 'Industrial Router R1', 420.00, 'PENDING'),
+(118, 'Voltage Monitor V5', 120.00, 'ACTIVE'),
+(119, 'Motor Health Sensor', 275.00, 'SHIPPED'),
+(120, 'Edge Gateway Mini', 190.00, 'ACTIVE'),
+(121, 'Industrial Sensor C3', 165.00, 'ACTIVE'),
+(122, 'Vibration Monitor Pro', 330.00, 'PENDING'),
+(123, 'Thermal Camera Lite', 700.00, 'ACTIVE'),
+(124, 'Pressure Valve Mini', 42.00, 'SHIPPED'),
+(125, 'Gateway Controller X', 145.00, 'ACTIVE'),
+(126, 'Humidity Sensor H2', 82.00, 'ACTIVE'),
+(127, 'Edge Data Logger Pro', 260.00, 'PENDING'),
+(128, 'Smart Relay Module 2', 48.00, 'ACTIVE'),
+(129, 'Industrial Camera I3', 680.00, 'SHIPPED'),
+(130, 'Flow Meter F20', 350.00, 'ACTIVE'),
+(131, 'Temperature Probe T2', 37.50, 'ACTIVE'),
+(132, 'Industrial Router R2', 450.00, 'PENDING'),
+(133, 'Voltage Monitor V6', 125.00, 'ACTIVE'),
+(134, 'Motor Health Sensor Plus', 295.00, 'SHIPPED'),
+(135, 'Edge Gateway Pro', 240.00, 'ACTIVE'),
+(136, 'Industrial Sensor D4', 170.00, 'ACTIVE'),
+(137, 'Vibration Monitor Lite', 290.00, 'PENDING'),
+(138, 'Thermal Camera X', 880.00, 'ACTIVE'),
+(139, 'Pressure Valve Pro', 65.00, 'SHIPPED'),
+(140, 'Gateway Controller Edge', 150.00, 'ACTIVE'),
+(141, 'Humidity Sensor H3', 85.00, 'ACTIVE'),
+(142, 'Edge Data Logger X', 270.00, 'PENDING'),
+(143, 'Smart Relay Module 3', 49.50, 'ACTIVE'),
+(144, 'Industrial Camera I4', 720.00, 'SHIPPED'),
+(145, 'Flow Meter F25', 365.00, 'ACTIVE'),
+(146, 'Temperature Probe T3', 39.00, 'ACTIVE'),
+(147, 'Industrial Router R3', 480.00, 'PENDING'),
+(148, 'Voltage Monitor V7', 130.00, 'ACTIVE'),
+(149, 'Motor Health Sensor X', 310.00, 'SHIPPED'),
+(150, 'Edge Gateway Ultra', 260.00, 'ACTIVE'),
+(151, 'Industrial Sensor E5', 175.00, 'ACTIVE'),
+(152, 'Vibration Monitor Advanced', 340.00, 'PENDING'),
+(153, 'Thermal Camera Max', 950.00, 'ACTIVE'),
+(154, 'Pressure Valve Heavy', 70.00, 'SHIPPED'),
+(155, 'Gateway Controller Hub', 160.00, 'ACTIVE'),
+(156, 'Humidity Sensor H4', 88.00, 'ACTIVE'),
+(157, 'Edge Data Logger Ultra', 290.00, 'PENDING'),
+(158, 'Smart Relay Module 4', 52.00, 'ACTIVE'),
+(159, 'Industrial Camera I5', 760.00, 'SHIPPED'),
+(160, 'Flow Meter F30', 390.00, 'ACTIVE'),
+(161, 'Temperature Probe T4', 41.00, 'ACTIVE'),
+(162, 'Industrial Router R4', 500.00, 'PENDING'),
+(163, 'Voltage Monitor V8', 135.00, 'ACTIVE'),
+(164, 'Motor Health Sensor Pro', 325.00, 'SHIPPED'),
+(165, 'Edge Gateway Prime', 275.00, 'ACTIVE'),
+(166, 'Industrial Sensor F6', 180.00, 'ACTIVE'),
+(167, 'Vibration Monitor Smart', 355.00, 'PENDING'),
+(168, 'Thermal Camera Vision', 990.00, 'ACTIVE'),
+(169, 'Pressure Valve Compact', 55.00, 'SHIPPED'),
+(170, 'Gateway Controller Smart', 170.00, 'ACTIVE'),
+(171, 'Humidity Sensor H5', 90.00, 'ACTIVE'),
+(172, 'Edge Data Logger Compact', 210.00, 'PENDING'),
+(173, 'Smart Relay Module 5', 54.00, 'ACTIVE'),
+(174, 'Industrial Camera I6', 800.00, 'SHIPPED'),
+(175, 'Flow Meter F35', 410.00, 'ACTIVE'),
+(176, 'Temperature Probe T5', 43.00, 'ACTIVE'),
+(177, 'Industrial Router R5', 530.00, 'PENDING'),
+(178, 'Voltage Monitor V9', 140.00, 'ACTIVE'),
+(179, 'Motor Health Sensor Elite', 350.00, 'SHIPPED'),
+(180, 'Edge Gateway Titan', 300.00, 'ACTIVE'),
+(181, 'Industrial Sensor G7', 185.00, 'ACTIVE'),
+(182, 'Vibration Monitor Ultra', 370.00, 'PENDING'),
+(183, 'Thermal Camera Ultra', 1050.00, 'ACTIVE'),
+(184, 'Pressure Valve Standard', 50.00, 'SHIPPED'),
+(185, 'Gateway Controller Grid', 175.00, 'ACTIVE'),
+(186, 'Humidity Sensor H6', 95.00, 'ACTIVE'),
+(187, 'Edge Data Logger Smart', 235.00, 'PENDING'),
+(188, 'Smart Relay Module 6', 56.00, 'ACTIVE'),
+(189, 'Industrial Camera I7', 820.00, 'SHIPPED'),
+(190, 'Flow Meter F40', 430.00, 'ACTIVE'),
+(191, 'Temperature Probe T6', 45.00, 'ACTIVE'),
+(192, 'Industrial Router R6', 560.00, 'PENDING'),
+(193, 'Voltage Monitor V10', 145.00, 'ACTIVE'),
+(194, 'Motor Health Sensor Max', 375.00, 'SHIPPED'),
+(195, 'Edge Gateway Apex', 320.00, 'ACTIVE'),
+(196, 'Industrial Sensor H8', 190.00, 'ACTIVE'),
+(197, 'Vibration Monitor AI', 395.00, 'PENDING'),
+(198, 'Thermal Camera AI', 1100.00, 'ACTIVE'),
+(199, 'Pressure Valve Smart', 75.00, 'SHIPPED'),
+(200, 'Gateway Controller AI', 200.00, 'ACTIVE'),
+(201, 'Humidity Sensor H7', 98.00, 'ACTIVE'),
+(202, 'Edge Data Logger AI', 260.00, 'PENDING'),
+(203, 'Smart Relay Module 7', 58.00, 'ACTIVE'),
+(204, 'Industrial Camera I8', 850.00, 'SHIPPED'),
+(205, 'Flow Meter F45', 450.00, 'ACTIVE');
+
+
+// INSERT 1K ROWS INTO MYSQL
+INSERT INTO orders (customer_id, product_name, price, status)
+SELECT 
+    106 + t.n AS customer_id,
+    ELT(FLOOR(1 + RAND()*15),
+        'Industrial Sensor A1','Industrial Sensor B2','Vibration Monitor X',
+        'Thermal Camera','Pressure Valve','Gateway Controller',
+        'Humidity Sensor','Edge Data Logger','Smart Relay Module',
+        'Industrial Camera','Flow Meter','Temperature Probe',
+        'Industrial Router','Voltage Monitor','Motor Health Sensor'
+    ),
+    ROUND(RAND()*1000 + 20,2),
+    ELT(FLOOR(1 + RAND()*4),'ACTIVE','PENDING','SHIPPED','CANCELLED')
+FROM (
+    SELECT a.N + b.N*10 + c.N*100 AS n
+    FROM 
+    (SELECT 0 N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
+     UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) a
+    CROSS JOIN
+    (SELECT 0 N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
+     UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) b
+    CROSS JOIN
+    (SELECT 0 N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
+     UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) c
+) t
+LIMIT 10000;
+
+
+// INSERT 100K ROWS INTO MYSQL
+INSERT INTO orders (customer_id, product_name, price, status)
+SELECT 
+    106 + t.n AS customer_id,
+    ELT(FLOOR(1 + RAND()*15),
+        'Industrial Sensor A1','Industrial Sensor B2','Vibration Monitor X',
+        'Thermal Camera','Pressure Valve','Gateway Controller',
+        'Humidity Sensor','Edge Data Logger','Smart Relay Module',
+        'Industrial Camera','Flow Meter','Temperature Probe',
+        'Industrial Router','Voltage Monitor','Motor Health Sensor'
+    ),
+    ROUND(RAND()*1000 + 20,2),
+    ELT(FLOOR(1 + RAND()*4),'ACTIVE','PENDING','SHIPPED','CANCELLED')
+FROM (
+    SELECT a.N + b.N*10 + c.N*100 + d.N*1000 + e.N*10000 AS n
+    FROM 
+    (SELECT 0 N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
+     UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) a
+    CROSS JOIN
+    (SELECT 0 N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
+     UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) b
+    CROSS JOIN
+    (SELECT 0 N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
+     UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) c
+    CROSS JOIN
+    (SELECT 0 N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
+     UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) d
+    CROSS JOIN
+    (SELECT 0 N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
+     UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) e
+) t
+LIMIT 100000;
+
+
+
+// INSERT 100K ROWS INTO MYSQL
+INSERT INTO orders (customer_id, product_name, price, status)
+SELECT 
+    106 + t.n AS customer_id,
+    ELT(FLOOR(1 + RAND()*15),
+        'Industrial Sensor A1','Industrial Sensor B2','Vibration Monitor X',
+        'Thermal Camera','Pressure Valve','Gateway Controller',
+        'Humidity Sensor','Edge Data Logger','Smart Relay Module',
+        'Industrial Camera','Flow Meter','Temperature Probe',
+        'Industrial Router','Voltage Monitor','Motor Health Sensor'
+    ),
+    ROUND(RAND()*1000 + 20,2),
+    ELT(FLOOR(1 + RAND()*4),'ACTIVE','PENDING','SHIPPED','CANCELLED')
+FROM (
+    SELECT a.N + b.N*10 + c.N*100 + d.N*1000 + e.N*10000 + f.N*100000 AS n
+    FROM 
+    (SELECT 0 N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
+     UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) a
+    CROSS JOIN
+    (SELECT 0 N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
+     UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) b
+    CROSS JOIN
+    (SELECT 0 N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
+     UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) c
+    CROSS JOIN
+    (SELECT 0 N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
+     UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) d
+    CROSS JOIN
+    (SELECT 0 N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
+     UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) e
+    CROSS JOIN
+    (SELECT 0 N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
+     UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) f
+) t
+LIMIT 1000000;
