@@ -12,7 +12,6 @@ class KafkaConfig:
     SERVERS = os.getenv("KAFKA_BOOTSTRAP_SERVERS")
     TOPICS = os.getenv("KAFKA_TOPIC")
     STARTING_OFFSETS = os.getenv("KAFKA_STARTING_OFFSETS", "earliest")
-    BOOTSTRAP_SERVERS = "localhost:9092"
 
     if not SERVERS or not TOPICS:
         raise EnvironmentError("KAFKA_BOOTSTRAP_SERVERS or KAFKA_TOPIC missing")
