@@ -1,4 +1,5 @@
-# CDC_Data_Pipeline (MySQL -> ClickHouse)
+# CDC_Data_Pipeline (MySQL -> ClickHouse)   
+
 A high-performance Change Data Capture (CDC) pipeline designed for Industrial IoT (IIoT) and Predictive Maintenance scenarios. This project synchronizes transactional data from MySQL to a ClickHouse OLAP warehouse in real-time using Debezium, Apache Spark, Apache Kafka.
 
 ## Architecture
@@ -113,3 +114,6 @@ Keep this running
 uv run src/main.py
 ```
 You should see logs showing data flowing through the pipeline.
+
+
+### From manhtuanthusinh with love ❤️❤️❤️
