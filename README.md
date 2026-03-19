@@ -18,7 +18,7 @@ A high-performance Change Data Capture (CDC) pipeline. This project synchronizes
   Spark Streaming
      │
      ▼
-  Data Warehouse Clickhouse 
+  Clickhouse DWH 
 ```
 
 + Ingestion (OLTP): MySQL as the source with binlog enabled
