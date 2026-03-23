@@ -1,0 +1,6 @@
+.env
+docker/mysql_data
+docker/clickhouse_data
+
+src/configs/__pycache__
+src/streaming/__pycache__
