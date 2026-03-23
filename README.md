@@ -55,7 +55,7 @@ A high-performance Change Data Capture (CDC) pipeline. This project synchronizes
 ### 2. Start the Infrastructure
 #### Step 1: Install dependencies
 ``` bash
-pip install -r requirements.txt
+uv add -r requirements.txt
 uv sync
 
 ```
