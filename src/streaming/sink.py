@@ -5,7 +5,7 @@ def write_to_clickhouse(df, batch_id):
         print(f"Writing {df.count()} rows to ClickHouse (Batch {batch_id})...")
         df.write \
             .format("jdbc") \
-            .option("url", "jdbc:clickhouse://localhost:8123/default?jdbcCompliant=false")  \
+            .option("url", "jdbc:clickhouse://localhost:8123/inventory_dwh?jdbcCompliant=false") \
             .option("driver", "com.clickhouse.jdbc.ClickHouseDriver") \
             .option("dbtable", "orders_warehouse") \
             .option("user", "default") \
