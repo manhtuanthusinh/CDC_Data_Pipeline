@@ -1,8 +1,13 @@
 // for running 
-export PYTHONPATH=$PYTHONPATH:$(pwd)/src
-uv run src/streaming/spark_streaming_job.py
+uv run src/main.py
 
-
+// kafka 
+docker exec -it kafka_cdc /usr/bin/kafka-topics \
+  --create \
+  --topic dbserver1.inventory.orders \
+  --bootstrap-server localhost:9092 \
+  --partitions 1 \
+  --replication-factor 1
 
 // setup the connection manually
 curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" \
