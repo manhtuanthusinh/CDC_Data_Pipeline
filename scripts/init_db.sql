@@ -1,6 +1,5 @@
-USE inventory;
-
-CREATE TABLE orders (
+-- MySQL
+CREATE TABLE IF NOT EXISTS inventory.orders (
   id INT AUTO_INCREMENT PRIMARY KEY,
   customer_id INT,
   product_name VARCHAR(255),
@@ -9,8 +8,8 @@ CREATE TABLE orders (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Clickhouse
-CREATE TABLE IF NOT EXISTS orders_warehouse (
+-- ClickHouse
+CREATE TABLE IF NOT EXISTS inventory_dwh.orders_warehouse (
     id Int32,
     customer_id Int32,
     product_name String,
