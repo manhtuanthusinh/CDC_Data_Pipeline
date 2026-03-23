@@ -106,7 +106,7 @@ INSERT INTO orders (customer_id, product_name, price, status) VALUES
 docker exec -it clickhouse_cdc clickhouse-client --user default --password 1111
 ```
 ``` SQL
-SELECT * FROM orders_warehouse;
+SELECT * FROM inventory_dwh.orders_warehouse;
 ```
 
 ### Terminal 3: Application running
