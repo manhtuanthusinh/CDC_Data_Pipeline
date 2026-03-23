@@ -56,6 +56,7 @@ A high-performance Change Data Capture (CDC) pipeline. This project synchronizes
 #### Step 1: Install dependencies
 ``` bash
 pip install -r requirements.txt
+uv sync
 
 ```
 
