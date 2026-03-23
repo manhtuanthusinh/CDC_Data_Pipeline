@@ -30,8 +30,8 @@ services:
       - MYSQL_DATABASE=inventory
     command: --server-id=1 --log-bin=mysql-bin --binlog-format=row --binlog-row-image=full --default-authentication-plugin=mysql_native_password 
     volumes:
-      - ./mysql_data:/var/lib/mysql 
-      - ../scripts/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+      - mysql_data:/var/lib/mysql 
+      - ../scripts/mysql_init.sql:/docker-entrypoint-initdb.d/setup_mysql.sql
 
   debezium:
     image: debezium/connect:2.1
@@ -76,8 +76,8 @@ services:
       - CLICKHOUSE_PASSWORD=1111
       - CLICKHOUSE_DB=inventory_dwh
     volumes:
-      - ./clickhouse_data:/var/lib/clickhouse 
-      - ../scripts/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+      - clickhouse_data:/var/lib/clickhouse 
+      - ../scripts/clickhouse_init.sql:/docker-entrypoint-initdb.d/setup_clickhouse.sql
     ulimits:
       nofile:
         soft: 262144
