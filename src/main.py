@@ -15,6 +15,7 @@ def run_pipeline():
             .format("kafka") \
             .option("kafka.bootstrap.servers", KafkaConfig.SERVERS) \
             .option("subscribe", KafkaConfig.TOPICS) \
+            .option("maxOffsetsPerTrigger", 20000)  \
             .load()
 
         # 2. TRANSFORM
