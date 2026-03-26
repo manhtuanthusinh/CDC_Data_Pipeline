@@ -64,7 +64,7 @@ uv sync
 #### Step 2: Start services with Docker
 ``` bash
 cd docker
-docker compose -d
+docker compose up -d
 ```
 This will start all the services needed.
 
